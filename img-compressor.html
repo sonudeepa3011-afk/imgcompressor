@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>इमेज कंप्रेसर टूल | Image Compressor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            background-color: #f0f8ff;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="range"], select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .image-comparison {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .image-container {
+            width: 48%;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .file-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 600px) {
+            .image-comparison {
+                flex-direction: column;
+            }
+            .image-container {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>इमेज कंप्रेसर टूल</h1>
+        
+        <div class="upload-area" id="uploadArea">
+            <p>यहाँ इमेज ड्रॉप करें या क्लिक करके चुनें</p>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="quality">क्वालिटी: <span id="qualityValue">80</span>%</label>
+                <input type="range" id="quality" min="1" max="100" value="80">
+            </div>
+            
+            <div class="control-group">
+                <label for="format">आउटपुट फॉर्मेट:</label>
+                <select id="format">
+                    <option value="jpeg">JPEG</option>
+                    <option value="png">PNG</option>
+                    <option value="webp">WebP</option>
+                </select>
+            </div>
+            
+            <button id="compressBtn" disabled>इमेज कंप्रेस करें</button>
+        </div>
+        
+        <div class="result" id="resultSection">
+            <h2>रिजल्ट</h2>
+            <div class="image-comparison">
+                <div class="image-container">
+                    <h3>ओरिजिनल इमेज</h3>
+                    <img id="originalImage" src="" alt="Original Image">
+                    <div class="file-info">
+                        <span id="originalSize">-</span>
+                        <span id="originalDimensions">-</span>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <h3>कंप्रेस्ड इमेज</h3>
+                    <img id="compressedImage" src="" alt="Compressed Image">
+                    <div class="file-info">
+                        <span id="compressedSize">-</span>
+                        <span id="compressedDimensions">-</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="downloadBtn">डाउनलोड करें</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const compressBtn = document.getElementById('compressBtn');
+        const qualitySlider = document.getElementById('quality');
+        const qualityValue = document.getElementById('qualityValue');
+        const formatSelect = document.getElementById('format');
+        const resultSection = document.getElementById('resultSection');
+        const originalImage = document.getElementById('originalImage');
+        const compressedImage = document.getElementById('compressedImage');
+        const originalSize = document.getElementById('originalSize');
+        const originalDimensions = document.getElementById('originalDimensions');
+        const compressedSize = document.getElementById('compressedSize');
+        const compressedDimensions = document.getElementById('compressedDimensions');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Variables
+        let originalFile = null;
+        let compressedBlob = null;
+
+        // Event Listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#f0f8ff';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.backgroundColor = '';
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '';
+            if (e.dataTransfer.files.length) {
+                handleFileSelect(e.dataTransfer.files[0]);
+            }
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleFileSelect(fileInput.files[0]);
+            }
+        });
+        qualitySlider.addEventListener('input', () => {
+            qualityValue.textContent = qualitySlider.value;
+        });
+        compressBtn.addEventListener('click', compressImage);
+        downloadBtn.addEventListener('click', downloadImage);
+
+        // Functions
+        function handleFileSelect(file) {
+            if (!file.type.match('image.*')) {
+                alert('कृपया सिर्फ इमेज फाइल चुनें');
+                return;
+            }
+
+            originalFile = file;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                originalImage.src = e.target.result;
+                
+                // Show original file info
+                originalSize.textContent = formatFileSize(file.size);
+                
+                // Get image dimensions
+                const img = new Image();
+                img.onload = function() {
+                    originalDimensions.textContent = `${img.width} × ${img.height} px`;
+                };
+                img.src = e.target.result;
+
+                // Enable compress button
+                compressBtn.disabled = false;
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function compressImage() {
+            if (!originalFile) return;
+
+            compressBtn.disabled = true;
+            compressBtn.textContent = 'कंप्रेस हो रहा है...';
+
+            const quality = parseInt(qualitySlider.value) / 100;
+            const format = formatSelect.value;
+            const img = new Image();
+
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Set canvas dimensions
+                canvas.width = img.width;
+                canvas.height = img.height;
+                
+                // Draw image on canvas
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // Convert to blob with selected quality
+                canvas.toBlob(function(blob) {
+                    compressedBlob = blob;
+                    const compressedUrl = URL.createObjectURL(blob);
+                    compressedImage.src = compressedUrl;
+                    
+                    // Show compressed file info
+                    compressedSize.textContent = formatFileSize(blob.size);
+                    compressedDimensions.textContent = `${img.width} × ${img.height} px`;
+                    
+                    // Show result section
+                    resultSection.style.display = 'block';
+                    
+                    // Reset button
+                    compressBtn.disabled = false;
+                    compressBtn.textContent = 'इमेज कंप्रेस करें';
+                    
+                    // Scroll to results
+                    resultSection.scrollIntoView({ behavior: 'smooth' });
+                }, `image/${format}`, quality);
+            };
+
+            img.src = originalImage.src;
+        }
+
+        function downloadImage() {
+            if (!compressedBlob) return;
+
+            const a = document.createElement('a');
+            const url = URL.createObjectURL(compressedBlob);
+            const fileExt = formatSelect.value;
+            const fileName = originalFile.name.replace(/\.[^/.]+$/, '') + `-compressed.${fileExt}`;
+            
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            else return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+    </script>
+</body>
+</html>
