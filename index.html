@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolKitPro - सभी ऑनलाइन टूल्स एक ही जगह</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* नेविगेशन बार */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* हीरो सेक्शन */
+        .hero {
+            padding: 5rem 5%;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            box-shadow: var(--shadow);
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            background: var(--secondary);
+        }
+
+        /* टूल्स सेक्शन */
+        .section {
+            padding: 4rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .tool-img {
+            height: 180px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+        }
+
+        .tool-content {
+            padding: 1.5rem;
+        }
+
+        .tool-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        /* फीचर्स सेक्शन */
+        .features {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-text p {
+            color: var(--gray);
+        }
+
+        /* CTA सेक्शन */
+        .cta {
+            text-align: center;
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .cta .btn {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* फूटर */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* रेस्पॉन्सिव डिज़ाइन */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem 5%;
+            }
+
+            .nav-links {
+                margin-top: 1.5rem;
+            }
+
+            .nav-links li {
+                margin: 0 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .cta h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- नेविगेशन बार -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-tools"></i>
+            <span>ToolKitPro</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#">होम</a></li>
+            <li><a href="#tools">टूल्स</a></li>
+            <li><a href="#features">फीचर्स</a></li>
+            <li><a href="#contact">संपर्क</a></li>
+        </ul>
+    </nav>
+
+    <!-- हीरो सेक्शन -->
+    <section class="hero">
+        <h1>आपके सभी ऑनलाइन टूल्स एक ही जगह</h1>
+        <p>मुफ्त, तेज़ और उपयोग में आसान टूल्स जो आपके काम को आसान बनाते हैं। कोई इंस्टॉलेशन नहीं - सीधे ब्राउज़र में काम करें।</p>
+        <div class="search-bar">
+            <input type="text" placeholder="टूल्स खोजें...">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </section>
+
+    <!-- टूल्स सेक्शन -->
+    <section class="section" id="tools">
+        <div class="section-title">
+            <h2>लोकप्रिय टूल्स</h2>
+            <p>हमारे सबसे ज्यादा इस्तेमाल किए जाने वाले टूल्स</p>
+        </div>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-img">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>इमेज कंप्रेसर</h3>
+                    <p>इमेज का साइज कम करें बिना क्वालिटी खोए</p>
+                    <a href="#" class="btn">इस्तेमाल करें</a>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-img">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>PDF कंप्रेसर</h3>
+                    <p>PDF फाइल्स का साइज कम करें</p>
+                    <a href="#" class="btn">इस्तेमाल करें</a>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-img">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>इमेज कन्वर्टर</h3>
+                    <p>JPG, PNG, WEBP में कन्वर्ट करें</p>
+                    <a href="#" class="btn">इस्तेमाल करें</a>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-img">
+                    <i class="fas fa-object-group"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>PDF मर्जर</h3>
+                    <p>कई PDFs को एक साथ जोड़ें</p>
+                    <a href="#" class="btn">इस्तेमाल करें</a>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-img">
+                    <i class="fas fa-crop-alt"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>इमेज रीसाइज़र</h3>
+                    <p>इमेज का साइज बदलें</p>
+                    <a href="#" class="btn">इस्तेमाल करें</a>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-img">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <div class="tool-content">
+                    <h3>PDF टू वर्ड</h3>
+                    <p>PDF को एडिट करने योग्य वर्ड में बदलें</p>
+                    <a href="#" class="btn">इस्तेमाल करें</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- फीचर्स सेक्शन -->
+    <section class="section features" id="features">
+        <div class="section-title">
+            <h2>हमारे खास फीचर्स</h2>
+            <p>हम क्यों हैं बेहतर</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="feature-text">
+                    <h3>सुरक्षित</h3>
+                    <p>आपकी फाइल्स आपके ब्राउज़र में ही प्रोसेस होती हैं, हमारे सर्वर पर नहीं</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="feature-text">
+                    <h3>तेज़</h3>
+                    <p>हमारे टूल्स सेकंड्स में रिजल्ट दिखाते हैं</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div class="feature-text">
+                    <h3>कोई इंस्टॉलेशन नहीं</h3>
+                    <p>सीधे ब्राउज़र में इस्तेमाल करें, कुछ डाउनलोड नहीं</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="feature-text">
+                    <h3>मुफ्त</h3>
+                    <p>हमारे सभी बेसिक टूल्स हमेशा मुफ्त रहेंगे</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA सेक्शन -->
+    <section class="cta">
+        <h2>आजमाएं हमारे टूल्स</h2>
+        <p>हजारों संतुष्ट उपयोगकर्ताओं में शामिल हों जो रोज़ हमारे टूल्स पर भरोसा करते हैं</p>
+        <a href="#tools" class="btn">सभी टूल्स देखें</a>
+    </section>
+
+    <!-- फूटर -->
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>ToolKitPro</h3>
+                <p>इमेज और PDF टूल्स का आपका अंतिम संग्रह। तेज़, सुरक्षित और उपयोग में आसान।</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>इमेज टूल्स</h3>
+                <ul class="footer-links">
+                    <li><a href="#">इमेज कंप्रेसर</a></li>
+                    <li><a href="#">इमेज कन्वर्टर</a></li>
+                    <li><a href="#">इमेज रीसाइज़र</a></li>
+                    <li><a href="#">वॉटरमार्क रिमूवर</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>PDF टूल्स</h3>
+                <ul class="footer-links">
+                    <li><a href="#">PDF कंप्रेसर</a></li>
+                    <li><a href="#">PDF मर्जर</a></li>
+                    <li><a href="#">PDF टू वर्ड</a></li>
+                    <li><a href="#">PDF टू JPG</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>संपर्क करें</h3>
+                <ul class="footer-links">
+                    <li><a href="#">हमारे बारे में</a></li>
+                    <li><a href="#">सहायता</a></li>
+                    <li><a href="#">गोपनीयता नीति</a></li>
+                    <li><a href="#">शर्तें</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> ToolKitPro. सर्वाधिकार सुरक्षित।</p>
+        </div>
+    </footer>
+
+    <script>
+        // वर्तमान वर्ष डालें
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // स्मूथ स्क्रॉलिंग
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
